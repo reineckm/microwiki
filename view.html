@@ -1,0 +1,6 @@
+<h2>{{.Title}} 
+    <a hx-get="/edit/{{.Title}}" hx-swap="innerHTML" hx-target="#main" style="cursor: pointer;">
+        <i class="bi bi-pencil-square"></i>
+    </a>
+</h2>
+<pre>{{printf "%s" .Body}}</pre>
