@@ -1,5 +1,5 @@
 <form hx-post="/save/{{.Title}}" hx-swap="innerHTML" hx-target="#main">
     <h2>{{.Title}}</h2>
-    <div><textarea name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea></div>
+    <div><textarea autofocus="true" name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea></div>
     <div><input class="btn btn-primary" type="submit" value="Save" onclick="htmx.trigger('#menu', 'reload')"></div>
 </form>

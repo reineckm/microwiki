@@ -3,7 +3,7 @@
     <a hx-get="/view/{{.}}" hx-swap="innerHTML" hx-target="#main" style="cursor: pointer;">
         {{.}}
     </a>
-    <a hx-delete="/delete/{{.}}" onclick="htmx.trigger('#menu', 'reload')" style="cursor: pointer;">
+    <a hx-delete="/delete/{{.}}" hx-confirm="Soll der Artikel wirklich gelöscht werden?" onclick="htmx.trigger('#menu', 'reload')" style="cursor: pointer;">
         <i class="bi-trash"></i>
     </a>
     <br />

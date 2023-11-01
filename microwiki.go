@@ -13,24 +13,27 @@ import (
 	"os"
 )
 
+const ARTICLE_PATH = "articles/"
+
 type Page struct {
 	Title string
 	Body  []byte
 }
 
+func filename(title string) string {
+	return ARTICLE_PATH + title + ".txt"
+}
+
 func (p *Page) save() error {
-	filename := p.Title + ".txt"
-	return ioutil.WriteFile(filename, p.Body, 0600)
+	return ioutil.WriteFile(filename(p.Title), p.Body, 0600)
 }
 
 func (p *Page) delete() error {
-	filename := p.Title + ".txt"
-	return os.Remove(filename)
+	return os.Remove(filename(p.Title))
 }
 
 func loadPage(title string) (*Page, error) {
-	filename := title + ".txt"
-	body, err := ioutil.ReadFile(filename)
+	body, err := ioutil.ReadFile(filename(title))
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +55,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 func menuHandler(w http.ResponseWriter, r *http.Request) {
 	var menuitems []string
-	files, err := ioutil.ReadDir(".")
+	files, err := ioutil.ReadDir(ARTICLE_PATH)
 	for _, file := range files {
 		if strings.HasSuffix(file.Name(), ".txt") {
 			menuitems = append(menuitems, file.Name()[:len(file.Name())-4])
@@ -85,7 +88,7 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 
 func deleteHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p := &Page{Title: title, Body: nil}
-	err := os.Remove(title + ".txt")
+	err := p.delete()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
